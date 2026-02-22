@@ -1,15 +1,11 @@
-# Bazel build file for context-timing Python package
-load("@rules_python//python:packaging.bzl", "py_wheel", "py_package")
-load("@rules_python//python:defs.bzl", "py_library")
+# BUILD.bazel for context_timing Python library
+load("@aspect_rules_py//py:defs.bzl", "py_library")
 
-py_wheel(
-    name = "context_timing_wheel",
-    # Package data. We're building "example_minimal_library-0.0.1-py3-none-any.whl"
-    distribution = "context_timing",
-    python_tag = "py3",
-    version = "0.0.1",
+py_library(
+    name = "context_timing",
+    visibility = ["//visibility:public"],
+    imports = ["src"],
     deps = [
         "//libs/context-timing/src/context_timing:context_timing",
-    ],
-    visibility = ["//visibility:public"],
+    ]
 )
