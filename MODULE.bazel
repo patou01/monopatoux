@@ -1,5 +1,6 @@
 bazel_dep(name = "rules_python", version = "1.7.0")
 bazel_dep(name = "aspect_rules_py", version = "1.8.4")
+bazel_dep(name = "rules_shell", version = "0.6.1")
 
 # python toolchain
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
@@ -16,3 +17,6 @@ pip.parse(
     python_version="3.14",
 )
 use_repo(pip, "pip_common")
+
+ruff_ext = use_extension("//tools/ruff:ruff_extension.bzl", "ruff")
+use_repo(ruff_ext, "ruff_bin")

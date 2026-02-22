@@ -1,0 +1,8 @@
+sh_binary(
+    name = "ruff_int",
+    srcs = ["@ruff_bin//:ruff"],
+    args = ["$(SRCS)"],
+    data = ["@ruff_bin//:ruff"],
+    visibility = ["//visibility:public"],
+)
+
