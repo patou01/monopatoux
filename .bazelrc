@@ -1,3 +1,0 @@
-# Set default Python version for Bazel
-build --python_version=3.14
-test --python_version=3.14
