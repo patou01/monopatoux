@@ -1,0 +1,11 @@
+# BUILD.bazel for context_timing tests
+load("@aspect_rules_py//py:defs.bzl", "py_test")
+
+py_test(
+    name = "context_timing_test",
+    srcs = ["test_context.py"],
+    deps = [
+        "//libs/context-timing/src/context_timing:context_timing",
+        "@pip_common//pytest",
+    ],
+)

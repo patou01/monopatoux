@@ -1,0 +1,8 @@
+# BUILD.bazel for context_timing Python library
+load("@aspect_rules_py//py:defs.bzl", "py_library")
+
+py_library(
+    name = "context_timing",
+    srcs = ["context_timing.py"],
+    visibility = ["//visibility:public"],
+)

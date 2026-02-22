@@ -207,3 +207,11 @@ marimo/_lsp/
 __marimo__/
 
 .idea/
+
+# bazel
+bazel-bin
+bazel-monopatoux
+bazel-out
+bazel-testlogs
+.python-version
+MODULE.bazel.lock

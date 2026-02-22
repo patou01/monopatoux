@@ -1,0 +1,17 @@
+bazel_dep(name = "rules_python", version = "1.7.0")
+bazel_dep(name = "aspect_rules_py", version = "1.8.4")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.defaults(python_version = "3.14")
+python.toolchain(python_version = "3.14")
+use_repo(python, "python_3_14")
+
+
+pip.parse(
+    hub_name = "pip_common",
+    requirements_lock = "//:requirements.lock",
+    python_version="3.14",
+)
+
+use_repo(pip, "pip_common")
