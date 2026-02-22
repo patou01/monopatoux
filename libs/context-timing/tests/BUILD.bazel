@@ -5,7 +5,7 @@ py_test(
     name = "context_timing_test",
     srcs = ["test_context.py"],
     deps = [
-        "//libs/context-timing/src/context_timing:context_timing",
+        "//libs/context-timing:context_timing_pkg",
         "@pip_common//pytest",
     ],
 )
