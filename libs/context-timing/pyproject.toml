@@ -19,6 +19,11 @@ classifiers = [
 requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
+[dependency-groups]
+dev = [
+    "pytest>=4.6.11",
+]
+
 
 [project.urls]
 Homepage = "https://github.com/patou01/context-timing"
