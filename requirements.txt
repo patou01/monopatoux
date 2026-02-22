@@ -1,2 +1,2 @@
 # requirements that are common to the entire repo
-pytest==8.2.1
+pytest==9.0.2

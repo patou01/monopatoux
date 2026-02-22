@@ -8,4 +8,5 @@ py_test(
         "//libs/context-timing:context_timing",
         "@pip_common//pytest",
     ],
+    timeout = "short",
 )
