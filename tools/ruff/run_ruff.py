@@ -1,29 +1,22 @@
 import os
 import subprocess
 import sys
+from pathlib import Path
 
-# Use Bazel runfiles to find the ruff binary
-try:
-    from bazel_tools.tools.python.runfiles import runfiles
-except ImportError:
-    runfiles = None
+cwd = os.getcwd()
+os.chdir(Path("~/monopatoux").resolve())
+print(cwd)
+here = Path(os.path.dirname(__file__))
+print(f"here: {here}", file=sys.stderr)
+RUFF_PATH = (here / "../../../+ruff+ruff/ruff-x86_64-unknown-linux-gnu/ruff").resolve()
 
-RUFF_REL_PATH = "ruff-x86_64-unknown-linux-gnu/ruff"
+print(f"[run_ruff.py] Ruff binary path: {RUFF_PATH}", file=sys.stderr)
+print(f"[run_ruff.py] Ruff binary exists: {os.path.exists(RUFF_PATH)}", file=sys.stderr)
 
-if runfiles:
-    r = runfiles.Create()
-    ruff_path = r.Rlocation(os.path.join("ruff_bin", RUFF_REL_PATH))
-else:
-    # Fallback for non-Bazel execution
-    ruff_path = os.path.join(os.path.dirname(__file__), RUFF_REL_PATH)
-
-print(f"[run_ruff.py] Resolved Ruff binary path: {ruff_path}", file=sys.stderr)
-print(f"[run_ruff.py] Ruff binary exists: {os.path.exists(ruff_path)}", file=sys.stderr)
-
-if not os.path.exists(ruff_path):
-    sys.stderr.write(f"Ruff binary not found at {ruff_path}\n")
+if not os.path.exists(RUFF_PATH):
+    sys.stderr.write(f"Ruff binary not found at {RUFF_PATH}\n")
     sys.exit(1)
 
-args = [ruff_path] + sys.argv[1:]
+args = [RUFF_PATH] + sys.argv[2:]
 result = subprocess.run(args)
 sys.exit(result.returncode)

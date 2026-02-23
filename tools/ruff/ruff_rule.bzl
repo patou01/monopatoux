@@ -1,6 +1,7 @@
 def _get_ruff_impl(rctx):
     rctx.file("BUILD.bazel",
-'''filegroup(
+'''exports_files(["ruff-x86_64-unknown-linux-gnu/ruff"], visibility=["//visibility:public"])
+filegroup(
     name = "ruff",
     srcs = ["ruff-x86_64-unknown-linux-gnu/ruff"],
     visibility = ["//visibility:public"],
