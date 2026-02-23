@@ -1,16 +1,24 @@
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@monopatoux//tools/ruff:ruff.bzl", "get_ruff")
 
-def _ruff_impl(ctx):
-    RUFF_VERSION = "0.15.2"
-    http_archive(
-        name = "ruff_bin",
-        sha256 = "278b307eccb4eef6a153d811466dd8170d4fd74970cc4a44c793b40bd897e403",
-        urls = [
-           "https://github.com/astral-sh/ruff/releases/download/{0}/ruff-x86_64-unknown-linux-gnu.tar.gz".format(RUFF_VERSION),
-        ],
-    )
+def _ruff_impl(module_ctx):
+    for module in module_ctx.modules:
+        for attr in module.tags.base:
+            attrs = {
+                key: getattr(attr, key)
+                for key in dir(attr)
+                if not key.startswith("_")
+            }
+            get_ruff(**attrs)
+
+_ruff_attrs = {
+    "name": attr.string(default = "ruff"),
+    "sha256": attr.string(mandatory = True),
+    "version": attr.string(mandatory = True),
+}
 
 ruff = module_extension(
     implementation = _ruff_impl,
+    tag_classes = {
+        "base": tag_class(attrs = _ruff_attrs),
+    },
 )
-
