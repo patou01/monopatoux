@@ -19,4 +19,9 @@ pip.parse(
 use_repo(pip, "pip_common")
 
 ruff_ext = use_extension("//tools/ruff:ruff_extension.bzl", "ruff")
-use_repo(ruff_ext, "ruff_bin")
+ruff_ext.base(
+    name = "ruff",
+    version = "0.15.2",
+    sha256 = "278b307eccb4eef6a153d811466dd8170d4fd74970cc4a44c793b40bd897e403",
+)
+use_repo(ruff_ext, "ruff")

@@ -1,0 +1,9 @@
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+
+py_binary(
+    name = "run_ruff",
+    srcs = ["run_ruff.py"],
+    data = ["@ruff//:ruff"],
+    main = "run_ruff.py",
+    visibility = ["//visibility:public"],
+)

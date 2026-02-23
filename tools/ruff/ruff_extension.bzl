@@ -1,4 +1,4 @@
-load("@monopatoux//tools/ruff:ruff.bzl", "get_ruff")
+load("//tools/ruff:ruff_rule.bzl", "get_ruff")
 
 def _ruff_impl(module_ctx):
     for module in module_ctx.modules:
