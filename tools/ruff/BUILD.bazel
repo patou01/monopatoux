@@ -1,10 +1,11 @@
-load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
-py_binary(
+sh_binary(
     name = "run_ruff",
-    srcs = ["run_ruff.py"],
+    srcs = ["run_ruff.sh"],
     data = ["@ruff//:ruff-x86_64-unknown-linux-gnu/ruff"],
-    main = "run_ruff.py",
-    args = ["$(rlocationpaths @ruff//:ruff-x86_64-unknown-linux-gnu/ruff)"],
+    args = [
+        "$(location @ruff//:ruff-x86_64-unknown-linux-gnu/ruff)",
+    ],
     visibility = ["//visibility:public"],
 )
