@@ -1,0 +1,9 @@
+load("//tools/pytest:defs.bzl", "run_py_test")
+
+run_py_test(
+    name = "run",
+    deps = [
+        "@pip_common//pytest",
+    ],
+    visibility = ["//visibility:public"],
+)
