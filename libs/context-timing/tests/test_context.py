@@ -19,7 +19,7 @@ def test_print():
         set_log_func(logging.info)
         with measure_time():
             sleep(0.1)
-        m.assert_called_once()
+        m.assert_called_one()
 
     logger = logging.getLogger()
     with mock.patch.object(logger, "info") as m:
