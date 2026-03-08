@@ -1,0 +1,34 @@
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_test")
+load("@crate_index//:defs.bzl", "all_crate_deps")
+
+package(default_visibility = ["//visibility:public"])
+
+rust_binary(
+    name = "dupes_finder",
+    srcs = glob(["src/**/*.rs"]),
+    edition = "2024",
+    deps = all_crate_deps(
+        normal = True,
+    ),
+)
+
+rust_test(
+    name = "unit_test",
+    crate = ":dupes_finder",
+    edition = "2024",
+    deps = all_crate_deps(
+        normal = True,
+        proc_macro = True,
+    ),
+)
+
+rust_test(
+    name = "cli_test",
+    srcs = ["tests/cli.rs"],
+    edition = "2024",
+    data = [":dupes_finder"],
+    deps = all_crate_deps(
+        normal_dev = True,
+        proc_macro_dev = True,
+    ),
+)

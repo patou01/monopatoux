@@ -6,10 +6,30 @@ use std::fs::{self, File};
 use std::io::Write;
 use tempfile::tempdir;
 
+fn get_cmd() -> Command {
+    // If BAZEL_TEST is set, we are running under Bazel.
+    // We try to find the binary in runfiles.
+    if std::env::var_os("BAZEL_TEST").is_some() {
+        let possible_paths = [
+            "dupes_finder/dupes_finder",
+            "monopatoux/dupes_finder/dupes_finder",
+        ];
+        for path in possible_paths {
+            if std::path::Path::new(path).exists() {
+                return Command::new(path);
+            }
+        }
+    }
+
+    // Fallback to cargo_bin for Cargo environment or if not found in Bazel runfiles.
+    // In Cargo, this will find the binary in target/debug or target/release.
+    Command::new(assert_cmd::cargo::cargo_bin!("dupes_finder"))
+}
+
 /// Test that the CLI prints usage on missing arguments
 #[test]
 fn test_cli_usage() {
-    let mut cmd = Command::cargo_bin("dupes_finder").unwrap();
+    let mut cmd = get_cmd();
     cmd.assert()
         .failure()
         .stderr(contains("Usage: dupes_finder inspect <path>"));
@@ -21,7 +41,7 @@ fn test_single_file_no_duplicates() {
     let dir = tempdir().unwrap();
     let file_path = dir.path().join("file1.txt");
     File::create(&file_path).unwrap().write_all(b"hello world").unwrap();
-    let mut cmd = Command::cargo_bin("dupes_finder").unwrap();
+    let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
         .success()
@@ -37,7 +57,7 @@ fn test_duplicate_files_found() {
     let file2 = dir.path().join("b.txt");
     File::create(&file1).unwrap().write_all(b"same content").unwrap();
     File::create(&file2).unwrap().write_all(b"same content").unwrap();
-    let mut cmd = Command::cargo_bin("dupes_finder").unwrap();
+    let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
         .success()
@@ -54,7 +74,7 @@ fn test_different_files_not_duplicates() {
     let file2 = dir.path().join("b.txt");
     File::create(&file1).unwrap().write_all(b"content one").unwrap();
     File::create(&file2).unwrap().write_all(b"content two").unwrap();
-    let mut cmd = Command::cargo_bin("dupes_finder").unwrap();
+    let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
         .success()
@@ -66,7 +86,7 @@ fn test_different_files_not_duplicates() {
 #[test]
 fn test_empty_directory() {
     let dir = tempdir().unwrap();
-    let mut cmd = Command::cargo_bin("dupes_finder").unwrap();
+    let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
         .success()
@@ -83,7 +103,7 @@ fn test_nested_directories_duplicates() {
     let file2 = subdir.join("b.txt");
     File::create(&file1).unwrap().write_all(b"nested content").unwrap();
     File::create(&file2).unwrap().write_all(b"nested content").unwrap();
-    let mut cmd = Command::cargo_bin("dupes_finder").unwrap();
+    let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
         .success()
