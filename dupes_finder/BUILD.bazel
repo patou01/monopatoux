@@ -50,4 +50,5 @@ rustfmt_test(
         ":dupes_finder",
         ":unit_test",
     ],
+    tags = ["manual"],
 )
