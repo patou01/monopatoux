@@ -1,4 +1,4 @@
-load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_test")
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_clippy", "rust_test", "rustfmt_test")
 load("@crate_index//:defs.bzl", "all_crate_deps")
 
 package(default_visibility = ["//visibility:public"])
@@ -31,4 +31,23 @@ rust_test(
         normal_dev = True,
         proc_macro_dev = True,
     ),
+)
+
+rust_clippy(
+    name = "dupes_finder_clippy",
+    testonly = True,
+    deps = [
+        ":cli_test",
+        ":dupes_finder",
+        ":unit_test",
+    ],
+)
+
+rustfmt_test(
+    name = "dupes_finder_fmt",
+    targets = [
+        ":cli_test",
+        ":dupes_finder",
+        ":unit_test",
+    ],
 )

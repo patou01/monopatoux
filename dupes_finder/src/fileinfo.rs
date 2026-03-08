@@ -1,9 +1,9 @@
+use rayon::prelude::*;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, Read};
 use std::path::Path;
 use xxhash_rust::xxh3::Xxh3;
-use rayon::prelude::*;
 
 /// Stores information about a file, including its size and hash value.
 pub struct FileInfo {
@@ -34,24 +34,37 @@ pub fn collect_file_paths<P: AsRef<Path>>(path: P, files: &mut Vec<String>) -> i
 }
 
 /// Collects file info (size, hash) for a list of file paths in parallel.
-pub fn collect_files_with_info_parallel(file_paths: &[String]) -> io::Result<HashMap<String, FileInfo>> {
-    let results: Vec<_> = file_paths.par_iter().map(|path_str| {
-        let path = Path::new(path_str);
-        let res: io::Result<(String, FileInfo)> = (|| {
-            let metadata = std::fs::metadata(path)?;
-            let mut file = File::open(path)?;
-            let mut hasher = Xxh3::new();
-            let mut buffer = [0u8; 8192];
-            loop {
-                let n = file.read(&mut buffer)?;
-                if n == 0 { break; }
-                hasher.update(&buffer[..n]);
-            }
-            let hash = hasher.digest();
-            Ok((path.display().to_string(), FileInfo { size: metadata.len(), hash }))
-        })();
-        res
-    }).collect();
+pub fn collect_files_with_info_parallel(
+    file_paths: &[String],
+) -> io::Result<HashMap<String, FileInfo>> {
+    let results: Vec<_> = file_paths
+        .par_iter()
+        .map(|path_str| {
+            let path = Path::new(path_str);
+            let res: io::Result<(String, FileInfo)> = (|| {
+                let metadata = std::fs::metadata(path)?;
+                let mut file = File::open(path)?;
+                let mut hasher = Xxh3::new();
+                let mut buffer = [0u8; 8192];
+                loop {
+                    let n = file.read(&mut buffer)?;
+                    if n == 0 {
+                        break;
+                    }
+                    hasher.update(&buffer[..n]);
+                }
+                let hash = hasher.digest();
+                Ok((
+                    path.display().to_string(),
+                    FileInfo {
+                        size: metadata.len(),
+                        hash,
+                    },
+                ))
+            })();
+            res
+        })
+        .collect();
     let mut files = HashMap::new();
     for res in results {
         let (path, info) = res?;

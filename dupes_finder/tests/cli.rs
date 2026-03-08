@@ -40,7 +40,10 @@ fn test_cli_usage() {
 fn test_single_file_no_duplicates() {
     let dir = tempdir().unwrap();
     let file_path = dir.path().join("file1.txt");
-    File::create(&file_path).unwrap().write_all(b"hello world").unwrap();
+    File::create(&file_path)
+        .unwrap()
+        .write_all(b"hello world")
+        .unwrap();
     let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
@@ -55,8 +58,14 @@ fn test_duplicate_files_found() {
     let dir = tempdir().unwrap();
     let file1 = dir.path().join("a.txt");
     let file2 = dir.path().join("b.txt");
-    File::create(&file1).unwrap().write_all(b"same content").unwrap();
-    File::create(&file2).unwrap().write_all(b"same content").unwrap();
+    File::create(&file1)
+        .unwrap()
+        .write_all(b"same content")
+        .unwrap();
+    File::create(&file2)
+        .unwrap()
+        .write_all(b"same content")
+        .unwrap();
     let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
@@ -72,8 +81,14 @@ fn test_different_files_not_duplicates() {
     let dir = tempdir().unwrap();
     let file1 = dir.path().join("a.txt");
     let file2 = dir.path().join("b.txt");
-    File::create(&file1).unwrap().write_all(b"content one").unwrap();
-    File::create(&file2).unwrap().write_all(b"content two").unwrap();
+    File::create(&file1)
+        .unwrap()
+        .write_all(b"content one")
+        .unwrap();
+    File::create(&file2)
+        .unwrap()
+        .write_all(b"content two")
+        .unwrap();
     let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
@@ -101,8 +116,14 @@ fn test_nested_directories_duplicates() {
     fs::create_dir(&subdir).unwrap();
     let file1 = dir.path().join("a.txt");
     let file2 = subdir.join("b.txt");
-    File::create(&file1).unwrap().write_all(b"nested content").unwrap();
-    File::create(&file2).unwrap().write_all(b"nested content").unwrap();
+    File::create(&file1)
+        .unwrap()
+        .write_all(b"nested content")
+        .unwrap();
+    File::create(&file2)
+        .unwrap()
+        .write_all(b"nested content")
+        .unwrap();
     let mut cmd = get_cmd();
     cmd.args(["inspect", dir.path().to_str().unwrap()])
         .assert()
@@ -110,4 +131,3 @@ fn test_nested_directories_duplicates() {
         .stdout(contains("Total files found: 2"))
         .stdout(contains("Number of duplicate files: 2"));
 }
-

@@ -50,6 +50,7 @@ dupes_finder inspect E:/fit
 - **Duplicated files:** Groups of files with identical content
 - **Duration:** Time taken for the scan, formatted as Hh Mm Ss, Mm Ss, or Ss.ms
 
-## License
+## Build and test
 
-[Your License Here]
+`bazel run @rules_rust//:rustfmt -- //dupes_finder:dupes_finder //dupes_finder:unit_test //dupes_finder:cli_test`
+or `cargo test`

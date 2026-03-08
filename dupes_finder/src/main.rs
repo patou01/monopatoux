@@ -69,7 +69,7 @@ fn main() -> io::Result<()> {
             let inspection = inspect_duplicates(&path)?;
             print_inspection_summary(&inspection);
             Ok(())
-        },
+        }
         _ => {
             eprintln!(
                 "Usage: dupes_finder inspect <path>\n<path> can be relative or absolute, e.g. ./mydir or E:/fit"

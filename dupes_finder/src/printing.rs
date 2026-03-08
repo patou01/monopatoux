@@ -51,7 +51,10 @@ pub fn print_duration(duration: std::time::Duration) {
 /// * `result` - The InspectionResult to display.
 pub fn print_inspection_summary(result: &InspectionResult) {
     println!("Total files found: {}", result.total_files);
-    println!("Total size of analyzed files: {}", format_size(result.total_size));
+    println!(
+        "Total size of analyzed files: {}",
+        format_size(result.total_size)
+    );
     println!("Number of duplicate files: {}", result.duplicate_count);
     println!("Duplicated files:");
     for group in &result.duplicate_files {
@@ -61,4 +64,3 @@ pub fn print_inspection_summary(result: &InspectionResult) {
         }
     }
 }
-
