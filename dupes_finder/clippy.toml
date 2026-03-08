@@ -1,0 +1,8 @@
+# Clippy configuration for dupes_finder
+# Note: Clippy does not natively support restricting linting to specific directories.
+# To lint only src and tests, run:
+#   cargo clippy --all-targets -- src/
+#   cargo clippy --all-targets -- tests/
+# Or use a script to automate this.
+
+# For more options, see: https://doc.rust-lang.org/clippy/index.html#configuration
