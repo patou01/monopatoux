@@ -52,11 +52,18 @@ dupes_finder inspect E:/fit
 
 ## Rust Development
 
+### Testing
+
+You can run tests using either Bazel or Cargo.
+
+- **Bazel**: Run all tests with `bazel test //dupes_finder/...`
+- **Cargo**: Run all tests with `cargo test` inside the `dupes_finder` directory.
+
 ### Linting and Formatting
 
 This project uses `rules_rust` for Bazel integration.
 
-- **Clippy**: Run `bazel test //dupes_finder:dupes_finder_clippy` to check for lints.
+- **Clippy**: Run `bazel build //dupes_finder:dupes_finder_clippy` to check for lints.
 - **Formatting check**: Run `bazel test //dupes_finder:dupes_finder_fmt` to verify formatting.
 - **Automatic formatting**: Use `bazel run @rules_rust//:rustfmt -- //dupes_finder:all` to automatically format files.
 
