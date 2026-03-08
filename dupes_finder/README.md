@@ -50,7 +50,14 @@ dupes_finder inspect E:/fit
 - **Duplicated files:** Groups of files with identical content
 - **Duration:** Time taken for the scan, formatted as Hh Mm Ss, Mm Ss, or Ss.ms
 
-## Build and test
+## Rust Development
 
-`bazel run @rules_rust//:rustfmt -- //dupes_finder:dupes_finder //dupes_finder:unit_test //dupes_finder:cli_test`
-or `cargo test`
+### Linting and Formatting
+
+This project uses `rules_rust` for Bazel integration.
+
+- **Clippy**: Run `bazel test //dupes_finder:dupes_finder_clippy` to check for lints.
+- **Formatting check**: Run `bazel test //dupes_finder:dupes_finder_fmt` to verify formatting.
+- **Automatic formatting**: Use `bazel run @rules_rust//:rustfmt -- //dupes_finder:all` to automatically format files.
+
+*Note: As of `rules_rust` 0.69.0, `rustfmt` may have issues finding files in projects using `edition = "2024"`. If it reports "Empty results", you may need to wait for a `rules_rust` update or manually run `rustfmt` via your editor or `cargo fmt` if available.*
