@@ -1,0 +1,9 @@
+load("@aspect_rules_py//py:defs.bzl", "py_binary")
+
+py_binary(
+    name = "run_py_binary_in_python",
+    srcs = ["run_py_binary_in_python.py"],
+    data = ["//tools/pytest:run"],
+    deps = ["@rules_python//python/runfiles"],
+    visibility = ["//visibility:public"],
+)
