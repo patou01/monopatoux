@@ -1,0 +1,15 @@
+# Rust artifacts
+target/
+**/*.rs.bk
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.dll
+*.dylib
+
+# Bazel local artifacts (if any are generated inside the lib folder)
+bazel-*

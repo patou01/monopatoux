@@ -1,0 +1,16 @@
+load("@aspect_rules_py//py:defs.bzl", "py_library", "py_test")
+
+py_library(
+    name = "comtrade_py",
+    srcs = ["comtrade/__init__.py"],
+    data = ["//libs/comtrade-rs/rs:comtrade"],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "test_hello",
+    srcs = ["tests/test_hello.py"],
+    main = "tests/test_hello.py",
+    deps = [":comtrade_py"],
+)

@@ -1,0 +1,11 @@
+[package]
+name = "comtrade"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "comtrade"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = { version = "0.23", features = ["extension-module", "abi3-py310"] }

@@ -6,9 +6,11 @@ bazel_dep(name = "rules_cc", version = "0.2.17")
 
 # python toolchain
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
-python.defaults(python_version = "3.14")
-python.toolchain(python_version = "3.14")
-use_repo(python, "python_3_14")
+python.defaults(python_version = "3.12")
+python.toolchain(python_version = "3.12", is_default = True)
+use_repo(python, "python_3_12")
+
+register_toolchains("@python_3_12//:all")
 
 
 # requirements
@@ -16,7 +18,7 @@ pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
     hub_name = "pip_common",
     requirements_lock = "//:requirements.lock",
-    python_version="3.14",
+    python_version="3.12",
 )
 use_repo(pip, "pip_common")
 
@@ -37,7 +39,10 @@ register_toolchains("@rust_toolchains//:all")
 crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
 crate.from_cargo(
     name = "crate_index",
-    cargo_lockfile = "//dupes_finder:Cargo.lock",
-    manifests = ["//dupes_finder:Cargo.toml"],
+    cargo_lockfile = "//:Cargo.lock",
+    manifests = [
+        "//dupes_finder:Cargo.toml",
+        "//libs/comtrade-rs/rs:Cargo.toml",
+    ],
 )
 use_repo(crate, "crate_index")
