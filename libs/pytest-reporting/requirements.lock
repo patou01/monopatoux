@@ -8,9 +8,9 @@ asgiref==3.11.1 \
     --hash=sha256:5f184dc43b7e763efe848065441eac62229c9f7b0475f41f80e207a114eda4ce \
     --hash=sha256:e8667a091e69529631969fd45dc268fa79b99c92c5fcdda727757e52146ec133
     # via django
-django==5.1.6 \
-    --hash=sha256:1e39eafdd1b185e761d9fab7a9f0b9fa00af1b37b25ad980a8aa0dac13535690 \
-    --hash=sha256:8d203400bc2952fbfb287c2bbda630297d654920c72a73cc82a9ad7926feaad5
+django==6.0.3 \
+    --hash=sha256:2e5974441491ddb34c3f13d5e7a9f97b07ba03bf70234c0a9c68b79bbb235bc3 \
+    --hash=sha256:90be765ee756af8a6cbd6693e56452404b5ad15294f4d5e40c0a55a0f4870fe1
     # via
     #   -r libs/pytest-reporting/requirements.txt
     #   djangorestframework
