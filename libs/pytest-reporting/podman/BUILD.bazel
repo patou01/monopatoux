@@ -1,0 +1,8 @@
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+
+sh_binary(
+    name = "db_ctl",
+    srcs = ["db_ctl.sh"],
+    data = ["docker-compose.yml"],
+    visibility = ["//visibility:public"],
+)

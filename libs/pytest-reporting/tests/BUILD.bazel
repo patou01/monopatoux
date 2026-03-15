@@ -1,0 +1,18 @@
+load("@aspect_rules_py//py:defs.bzl", "py_test")
+
+py_test(
+    name = "test_owner_plugin",
+    srcs = [
+        "test_owner.py",
+    ],
+    args = [
+        "-p",
+        "pytest_reporting.plugin",
+        "libs/pytest-reporting/tests/test_owner.py",
+    ],
+    deps = [
+        "//libs/pytest-reporting:pytest_reporting",
+        "@pip_common//pytest",
+    ],
+    pytest_main = True,
+)

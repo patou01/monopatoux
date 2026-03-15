@@ -1,0 +1,26 @@
+load("@aspect_rules_py//py:defs.bzl", "py_library")
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+
+compile_pip_requirements(
+    name = "requirements",
+    src = "requirements.txt",
+    requirements_txt = "requirements.lock",
+)
+
+py_library(
+    name = "pytest_reporting",
+    visibility = ["//visibility:public"],
+    imports = ["src"],
+    deps = [
+        "//libs/pytest-reporting/src/pytest_reporting",
+    ],
+)
+
+py_library(
+    name = "reporting_db",
+    visibility = ["//visibility:public"],
+    imports = ["src"],
+    deps = [
+        "//libs/pytest-reporting/src/reporting_db:reporting_db_lib",
+    ],
+)

@@ -1,0 +1,29 @@
+load("@aspect_rules_py//py:defs.bzl", "py_binary", "py_library")
+
+py_library(
+    name = "reporting_db_lib",
+    srcs = [
+        "admin.py",
+        "apps.py",
+        "models.py",
+        "reporting_db/settings.py",
+        "reporting_db/urls.py",
+    ],
+    visibility = ["//visibility:public"],
+    imports = ["../.."],
+    deps = [
+        "@pip_common//django",
+        "@pip_common//djangorestframework",
+        "@pip_common//psycopg",
+    ],
+)
+
+py_binary(
+    name = "manage",
+    srcs = ["manage.py"],
+    main = "manage.py",
+    deps = [
+        ":reporting_db_lib",
+    ],
+    visibility = ["//visibility:public"],
+)

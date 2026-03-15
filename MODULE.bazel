@@ -15,7 +15,7 @@ use_repo(python, "python_3_14")
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
     hub_name = "pip_common",
-    requirements_lock = "//:requirements.lock",
+    requirements_lock = "//libs/pytest-reporting:requirements.lock",
     python_version="3.14",
 )
 use_repo(pip, "pip_common")
