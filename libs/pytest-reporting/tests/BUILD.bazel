@@ -4,15 +4,18 @@ py_test(
     name = "test_owner_plugin",
     srcs = [
         "test_owner.py",
+        "conftest.py",
     ],
     args = [
         "-p",
         "pytest_reporting.plugin",
+        "--report-results",
         "libs/pytest-reporting/tests/test_owner.py",
     ],
     deps = [
         "//libs/pytest-reporting:pytest_reporting",
         "@pip_common//pytest",
+        "@pip_common//requests",
     ],
     pytest_main = True,
 )
