@@ -39,8 +39,29 @@ def pytest_runtest_logreport(report):
 def pytest_sessionfinish(session, exitstatus):
     config = session.config
     if config.getoption("--report-results"):
+        # Create a TestRun first
+        test_run_data = {
+            "pytest_args": " ".join(config.args),
+        }
+        test_run_id = None
+        try:
+            resp = requests.post(
+                "http://127.0.0.1:8000/api/testruns/",
+                json=test_run_data
+            )
+            if resp.status_code < 400:
+                test_run_id = resp.json().get("id")
+                print(f"Created TestRun with id {test_run_id}")
+            else:
+                print(f"Failed to create TestRun: {resp.text}")
+        except Exception as e:
+            print(f"Error creating TestRun: {e}")
+        if not test_run_id:
+            print("Cannot upload results without a TestRun.")
+            return
         # Send results to Django API
         for result in results:
+            result["test_run"] = test_run_id
             try:
                 response = requests.post(
                     "http://127.0.0.1:8000/api/testresults/",
